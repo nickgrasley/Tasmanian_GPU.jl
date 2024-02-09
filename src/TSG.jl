@@ -425,6 +425,28 @@ function evaluateBatch!(aY::VecOrMat{Float64}, tsg::TasmanianSG, vals::VecOrMat{
 end
 
 """
+    differentiate!(aDx::VecOrMat{Float64}, tsg::TasmanianSG, vals::Vector{Float64})
+
+returns the derivative (Jacobian or gradient vector) of the interpolant
+
+aDx:  a 1-D or 2-D array
+        with dimensions iDimensions X iOutputs
+        each row corresponds to the value of the interpolant
+        for one columns of vals
+tsg:  an instance of TasmanianSG
+vals: a vector with length iDimensions which is the evaluation point
+"""
+function differentiate!(aDx::VecOrMat{Float64}, tsg::TasmanianSG, vals::Vector{Float64})
+    iDimensions = getNumDimensions(tsg)
+    iOutputs = getNumOutputs(tsg)
+    @assert iDimensions == size(aDx, 1)
+    @assert iOutputs == size(aDx, 2)
+    @assert iDimensions == length(vals)
+    ccall((:tsgDifferentiate,TASlib),Nothing,(Ptr{Nothing},Ptr{Cdouble},Ptr{Cdouble}), tsg.pGrid, vals, aDx)
+    return aDx
+end
+
+"""
     setDomainTransform!(tsg::TasmanianSG, Transform::Matrix{Float64})
 
 sets the lower and upper bound for each dimension

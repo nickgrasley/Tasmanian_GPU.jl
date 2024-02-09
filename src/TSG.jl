@@ -447,6 +447,25 @@ function differentiate!(aDx::VecOrMat{Float64}, tsg::TasmanianSG, vals::Vector{F
 end
 
 """
+    differentiate(tsg::TasmanianSG, vals::Vector{Float64})
+
+returns the derivative (Jacobian or gradient vector) of the interpolant
+as a 1-D or 2-D array with dimensions iDimensions X iOutputs
+each row corresponds to the value of the interpolant
+
+tsg:  an instance of TasmanianSG
+vals: a vector with length iDimensions which is the evaluation point
+"""
+function differentiate(tsg::TasmanianSG, vals::Vector{Float64})
+    iDimensions = getNumDimensions(tsg)
+    iOutputs = getNumOutputs(tsg)
+    @assert iDimensions == length(vals)
+    aDx = zeros(iDimensions, iOutputs)
+    differentiate!(aDx, tsg, vals)
+    return aDx
+end
+
+"""
     setDomainTransform!(tsg::TasmanianSG, Transform::Matrix{Float64})
 
 sets the lower and upper bound for each dimension

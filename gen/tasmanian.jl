@@ -1,9 +1,39 @@
-module Tasmanian
-
 using Tasmanian_jll
 export Tasmanian_jll
 
 using CEnum
+
+mutable struct TasmanianSG
+    pGrid   :: Ptr{Nothing}
+    version :: VersionNumber
+    dims    :: Int
+    nout    :: Int
+    depth   :: Int
+
+	function TasmanianSG(dims::Int,nout::Int,depth::Int)
+		this = new()
+		output_ptr = ccall(
+	        (:tsgConstructTasmanianSparseGrid,TASlib), # name of C function and library
+	        Ptr{TasmanianSG},              # output type
+	        ()                        # tuple of input types
+		)
+	    if output_ptr == C_NULL # Could not allocate memory
+	        throw(OutOfMemoryError())
+	    else
+	    	this.pGrid = output_ptr
+	    end
+        this.version = VersionNumber(unsafe_string(ccall((:tsgGetVersion,TASlib),Cstring,())))
+        this.dims    = dims
+        this.nout    = nout
+        this.depth   = depth
+	    return this
+	end
+end
+
+function show(io::IO,TSG::TasmanianSG)
+    ccall((:tsgPrintStats,TASlib),Nothing,(Ptr{Nothing},),TSG.pGrid)
+end
+
 
 # no prototype is found for this function at TasmanianSparseGrid.h:38:7, please use with caution
 function tsgConstructTasmanianSparseGrid()
@@ -440,4 +470,3 @@ function tsgDeleteInts(p)
     ccall((:tsgDeleteInts, tasmanian), Cvoid, (Ptr{Cint},), p)
 end
 
-end # module

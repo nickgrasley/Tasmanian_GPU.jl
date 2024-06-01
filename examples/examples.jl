@@ -4,7 +4,7 @@
         iDepth = 5
         tsg = Tasmanian.TasmanianSG(iDim,iOut,iDepth)
         which_basis = 1 #1= linear basis functions -> Check the manual for other options
-        Tasmanian.makeLocalPolynomialGrid!(tsg,iOrder=which_basis,sRule="localp")
+        Tasmanian.makeLocalPolynomialGrid!(tsg, order=which_basis, sRule="localp")
         return tsg
     end
 
@@ -17,7 +17,7 @@
         iDepth = 5
         tsg = Tasmanian.TasmanianSG(iDim,iOut,iDepth)
         which_basis = 1 #1= linear basis functions -> Check the manual for other options
-        Tasmanian.makeLocalPolynomialGrid!(tsg,iOrder=which_basis,sRule="localp")
+        Tasmanian.makeLocalPolynomialGrid!(tsg,order=which_basis,sRule="localp")
 
         # sparse grid points from that object
         spPoints = getPoints(tsg)
@@ -35,7 +35,7 @@
         spVals = [tfun(spPoints[1,i], spPoints[2,i]) for i in 1:size(spPoints,2)]
 
         # load points needed for such values
-        loadNeededPoints!(tsg,spVals)
+        loadNeededPoints!(tsg, spVals)
 
         # evaluate interpolation
         res = evaluateBatch(tsg,randPnts)
@@ -61,7 +61,7 @@
         K = 7  # max refinement steps
         tsg = Tasmanian.TasmanianSG(dim,outs,iDepth)
         which_basis = 1 #1= linear basis functions -> Check the manual for other options
-        Tasmanian.makeLocalPolynomialGrid!(tsg,iOrder=which_basis,sRule="localp")
+        Tasmanian.makeLocalPolynomialGrid!(tsg,order=which_basis,sRule="localp")
 
         # sparse grid points from that object
         spPoints = getPoints(tsg)
@@ -90,7 +90,7 @@
         # refinefment loop
         #        anim = @animate for k in 1:K
         for k in 1:K
-            setSurplusRefinement!(tsg, tol, sCriteria="classic")
+            setSurplusRefinement!(tsg, tol, refinement_type="classic")
             if Tasmanian.getNumNeeded(tsg) > 0
                 spPoints = getNeededPoints(tsg)   # additional set of points required after refinement
                 spVals = [tfun(spPoints[1,i], spPoints[2,i])::Float64 for i in 1:size(spPoints,2)]
@@ -131,7 +131,7 @@
         tsg = Tasmanian.TasmanianSG(dim,outs,iDepth)
 
         which_basis = 1 #1= linear basis functions -> Check the manual for other options
-        Tasmanian.makeLocalPolynomialGrid!(tsg,iOrder=which_basis,sRule="localp")
+        Tasmanian.makeLocalPolynomialGrid!(tsg,order=which_basis,sRule="localp")
 
         # domain is [0,1] here
         Tasmanian.setDomainTransform!(tsg,[0 1.0;0 1])
@@ -160,7 +160,7 @@
         # refinefment loop
         #        anim = @animate for k in 1:K
         for k in 1:K
-            Tasmanian.setSurplusRefinement!(tsg,tol,sCriteria="classic")
+            Tasmanian.setSurplusRefinement!(tsg, tol, refinement_type="classic")
             if getNumNeeded(tsg) > 0
                 spPoints = Tasmanian.getNeededPoints(tsg)
                 spVals = [tfun(spPoints[1,i], spPoints[2,i]) for i in 1:size(spPoints,2)]

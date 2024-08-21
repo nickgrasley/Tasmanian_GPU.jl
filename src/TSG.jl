@@ -874,7 +874,7 @@ function evaluate(tsg::TasmanianSG, fX)
 end
 
 """
-     evaluateBatch(tsg::TasmanianSG, vals::Matrix{Float64})
+     evaluateBatch(tsg::TasmanianSG, vals::AbstractVecOrMat{Float64})
 
 evaluates the intepolant at the points of interest and returns
 the result
@@ -891,7 +891,7 @@ output: a vector or a matrix
         each columns corresponds to the value of the interpolant
         for one columns of vals
 """
-function evaluateBatch(tsg::TasmanianSG, vals::VecOrMat{Float64})
+function evaluateBatch(tsg::TasmanianSG, vals::AbstractVecOrMat{Float64})
     NumOutputs = getNumOutputs(tsg)
     NumX = size(vals, 2)
     if NumX > 1
@@ -904,7 +904,7 @@ function evaluateBatch(tsg::TasmanianSG, vals::VecOrMat{Float64})
 end
 
 """
-     evaluateBatch!(aY::VecOrMat{Float64}, tsg::TasmanianSG, vals::VecOrMat{Float64})
+     evaluateBatch!(aY::AbstractVecOrMat{Float64}, tsg::TasmanianSG, vals::AbstractVecOrMat{Float64})
 
 evaluates the intepolant at the points of interest and set the result in `aY`
 
@@ -920,7 +920,7 @@ vals: a vector or a matrix
       with first dimension equal to dimensions
       each column in the array is a single requested point
 """
-function evaluateBatch!(aY::VecOrMat{Float64}, tsg::TasmanianSG, vals::VecOrMat{Float64})
+function evaluateBatch!(aY::AbstractVecOrMat{Float64}, tsg::TasmanianSG, vals::AbstractVecOrMat{Float64})
     if getNumLoaded(tsg) == 0
         throw(TasmanianInputError("cannot call evaluateBatch for a grid before any points are loaded, i.e., call loadNeededPoints first!"))
     end
@@ -936,8 +936,8 @@ function evaluateBatch!(aY::VecOrMat{Float64}, tsg::TasmanianSG, vals::VecOrMat{
     n2 = size(aY)
     NumDimOut = n2[1]
     NumXOut = (length(n2) == 2) ? n2[2] : 1
-    if NumX != NumXOut
-        throw(TasmanianInputError("aY and vals must have the same number of columns"))
+    if NumX > NumXOut
+        throw(TasmanianInputError("aY must have at least as many columns as vals"))
     end
     NumX == 0 && return
     if (NumDim != getNumDimensions(tsg))
@@ -969,7 +969,7 @@ function integrate(tsg::TasmanianSG)
 end
 
 """
-    differentiate!(aDx::VecOrMat{Float64}, tsg::TasmanianSG, vals::Vector{Float64})
+    differentiate!(aDx::VecOrMat{Float64}, tsg::TasmanianSG, vals::AbstractVector{Float64})
 
 returns the derivative (Jacobian or gradient vector) of the interpolant
 

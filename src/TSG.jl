@@ -894,7 +894,7 @@ output: a vector or a matrix
 function evaluateBatch(tsg::TasmanianSG, vals::AbstractVecOrMat{Float64})
     NumOutputs = getNumOutputs(tsg)
     NumX = size(vals, 2)
-    !isa(vals, StridedArray) && throw TasmanianInputError("ERROR: vals must be a StridedArray")
+    !isa(vals, StridedArray) && throw(TasmanianInputError("ERROR: vals must be a StridedArray"))
     if NumX > 1
         aY = Matrix{Float64}(undef, NumOutputs, NumX)
     else
@@ -922,8 +922,8 @@ vals: a vector or a matrix
       each column in the array is a single requested point
 """
 function evaluateBatch!(aY::AbstractVecOrMat{Float64}, tsg::TasmanianSG, vals::AbstractVecOrMat{Float64})
-    !isa(aY, StridedArray) && throw TasmanianInputError("ERROR: aY must be a StridedArray")
-    !isa(vals, StridedArray) && throw TasmanianInputError("ERROR: vals must be a StridedArray")
+    !isa(aY, StridedArray) && throw(TasmanianInputError("ERROR: aY must be a StridedArray"))
+    !isa(vals, StridedArray) && throw(TasmanianInputError("ERROR: vals must be a StridedArray"))
     if getNumLoaded(tsg) == 0
         throw(TasmanianInputError("cannot call evaluateBatch for a grid before any points are loaded, i.e., call loadNeededPoints first!"))
     end

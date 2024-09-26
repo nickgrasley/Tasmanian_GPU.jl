@@ -8,7 +8,7 @@ using Test
     out = 1
     depth = 5
     tsg = Tasmanian.TasmanianSG(dim, out, depth)
-    @test Tasmanian.getVersion() == VersionNumber("8.0")
+    @test Tasmanian.getVersion() == VersionNumber("8.1")
     Tasmanian.makeLocalPolynomialGrid!(tsg)
     @test Tasmanian.isLocalPolynomial(tsg)
     @test !Tasmanian.isGlobal(tsg)

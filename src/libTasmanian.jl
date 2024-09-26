@@ -5,8 +5,8 @@ using CEnum
 
 mutable struct TasmanianSG
     pGrid   :: Ptr{Nothing}
-    dims    :: Int
-    nout    :: Int
+    dimensions    :: Int
+    outputs :: Int
     depth   :: Int
 
     function TasmanianSG(dims::Int,nout::Int,depth::Int)
@@ -21,9 +21,9 @@ mutable struct TasmanianSG
 	else
 	    this.pGrid = output_ptr
 	end
-        this.dims    = dims
-        this.nout    = nout
-        this.depth   = depth
+        this.dimensions = dims
+        this.outputs    = nout
+        this.depth      = depth
 	return this
     end
 end
@@ -48,27 +48,22 @@ function tsgCopySubGrid(destination, source, outputs_begin, outputs_end)
     ccall((:tsgCopySubGrid, TASlib), Cvoid, (Ptr{Cvoid}, Ptr{Cvoid}, Cint, Cint), destination, source, outputs_begin, outputs_end)
 end
 
-# no prototype is found for this function at TasmanianSparseGrid.h:42:13, please use with caution
 function tsgGetVersion()
     ccall((:tsgGetVersion, TASlib), Ptr{Cchar}, ())
 end
 
-# no prototype is found for this function at TasmanianSparseGrid.h:43:13, please use with caution
 function tsgGetLicense()
     ccall((:tsgGetLicense, TASlib), Ptr{Cchar}, ())
 end
 
-# no prototype is found for this function at TasmanianSparseGrid.h:44:5, please use with caution
 function tsgGetVersionMajor()
     ccall((:tsgGetVersionMajor, TASlib), Cint, ())
 end
 
-# no prototype is found for this function at TasmanianSparseGrid.h:45:5, please use with caution
 function tsgGetVersionMinor()
     ccall((:tsgGetVersionMinor, TASlib), Cint, ())
 end
 
-# no prototype is found for this function at TasmanianSparseGrid.h:46:5, please use with caution
 function tsgIsOpenMPEnabled()
     ccall((:tsgIsOpenMPEnabled, TASlib), Cint, ())
 end

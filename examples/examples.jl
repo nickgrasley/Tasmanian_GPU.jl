@@ -4,7 +4,7 @@
         iDepth = 5
         tsg = Tasmanian.TasmanianSG(iDim,iOut,iDepth)
         which_basis = 1 #1= linear basis functions -> Check the manual for other options
-        Tasmanian.makeLocalPolynomialGrid!(tsg, order=which_basis, sRule="localp")
+        Tasmanian.makeLocalPolynomialGrid!(tsg, order=which_basis, rule="localp")
         return tsg
     end
 
@@ -17,7 +17,7 @@
         iDepth = 5
         tsg = Tasmanian.TasmanianSG(iDim,iOut,iDepth)
         which_basis = 1 #1= linear basis functions -> Check the manual for other options
-        Tasmanian.makeLocalPolynomialGrid!(tsg,order=which_basis,sRule="localp")
+        Tasmanian.makeLocalPolynomialGrid!(tsg,order=which_basis,rule="localp")
 
         # sparse grid points from that object
         spPoints = getPoints(tsg)
@@ -61,7 +61,7 @@
         K = 7  # max refinement steps
         tsg = Tasmanian.TasmanianSG(dim,outs,iDepth)
         which_basis = 1 #1= linear basis functions -> Check the manual for other options
-        Tasmanian.makeLocalPolynomialGrid!(tsg,order=which_basis,sRule="localp")
+        Tasmanian.makeLocalPolynomialGrid!(tsg,order=which_basis,rule="localp")
 
         # sparse grid points from that object
         spPoints = getPoints(tsg)
@@ -131,7 +131,7 @@
         tsg = Tasmanian.TasmanianSG(dim,outs,iDepth)
 
         which_basis = 1 #1= linear basis functions -> Check the manual for other options
-        Tasmanian.makeLocalPolynomialGrid!(tsg,order=which_basis,sRule="localp")
+        Tasmanian.makeLocalPolynomialGrid!(tsg,order=which_basis,rule="localp")
 
         # domain is [0,1] here
         Tasmanian.setDomainTransform!(tsg,[0 1.0;0 1])

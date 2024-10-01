@@ -15,6 +15,6 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 [compat]
 Plots = "0.12.1, 1.39.0"
 SparseArrays = "1.10.0"
-Tasmanian_jll = "8.1"
+Tasmanian_jll = "8.0.2"
 Test = "1.6.3, 1.10"
 julia = "1.6.3"

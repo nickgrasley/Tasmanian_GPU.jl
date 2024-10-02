@@ -4,17 +4,17 @@ export Tasmanian_jll
 using CEnum
 
 mutable struct TasmanianSG
-    pGrid   :: Ptr{Nothing}
-    dimensions    :: Int
-    outputs :: Int
-    depth   :: Int
+    pGrid      :: Ptr{Nothing}
+    dimensions :: Int
+    outputs    :: Int
+    depth      :: Int
 
     function TasmanianSG(dims::Int,nout::Int,depth::Int)
 	this = new()
 	output_ptr = ccall(
 	    (:tsgConstructTasmanianSparseGrid,TASlib), # name of C function and library
-	    Ptr{TasmanianSG},              # output type
-	    ()                        # tuple of input types
+	    Ptr{TasmanianSG},                          # output type
+	    ()                                         # tuple of input types
 	)
 	if output_ptr == C_NULL # Could not allocate memory
 	    throw(OutOfMemoryError())
@@ -48,22 +48,27 @@ function tsgCopySubGrid(destination, source, outputs_begin, outputs_end)
     ccall((:tsgCopySubGrid, TASlib), Cvoid, (Ptr{Cvoid}, Ptr{Cvoid}, Cint, Cint), destination, source, outputs_begin, outputs_end)
 end
 
+# no prototype is found for this function at TasmanianSparseGrid.h:42:13, please use with caution
 function tsgGetVersion()
     ccall((:tsgGetVersion, TASlib), Ptr{Cchar}, ())
 end
 
+# no prototype is found for this function at TasmanianSparseGrid.h:43:13, please use with caution
 function tsgGetLicense()
     ccall((:tsgGetLicense, TASlib), Ptr{Cchar}, ())
 end
 
+# no prototype is found for this function at TasmanianSparseGrid.h:44:5, please use with caution
 function tsgGetVersionMajor()
     ccall((:tsgGetVersionMajor, TASlib), Cint, ())
 end
 
+# no prototype is found for this function at TasmanianSparseGrid.h:45:5, please use with caution
 function tsgGetVersionMinor()
     ccall((:tsgGetVersionMinor, TASlib), Cint, ())
 end
 
+# no prototype is found for this function at TasmanianSparseGrid.h:46:5, please use with caution
 function tsgIsOpenMPEnabled()
     ccall((:tsgIsOpenMPEnabled, TASlib), Cint, ())
 end

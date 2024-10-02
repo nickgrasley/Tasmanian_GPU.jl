@@ -996,7 +996,7 @@ function differentiate!(jacobian::VecOrMat{Float64}, tsg::TasmanianSG, x::Vector
         throw(TasmanianInputError("x must have length equal to getNumDimensions(tsg)"))
     end
     tsgDifferentiate( tsg.pGrid, x, jacobian)
-    return aDx
+    return jacobian
 end
 
 """

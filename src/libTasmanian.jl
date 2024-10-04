@@ -28,10 +28,6 @@ mutable struct TasmanianSG
     end
 end
 
-# missing in Tasmanian.h
-function tsgDifferentiate(grid, x, y)
-    ccall((:tsgDifferentiate, TASlib), Cvoid, (Ptr{Cvoid}, Ptr{Cdouble}, Ptr{Cdouble}), grid, x, y)
-end
 
 
 
@@ -73,6 +69,21 @@ function tsgIsOpenMPEnabled()
     ccall((:tsgIsOpenMPEnabled, TASlib), Cint, ())
 end
 
+# no prototype is found for this function at TasmanianSparseGrid.h:47:5, please use with caution
+function tsgIsCudaEnabled()
+    ccall((:tsgIsCudaEnabled, TASlib), Cint, ())
+end
+
+# no prototype is found for this function at TasmanianSparseGrid.h:48:5, please use with caution
+function tsgIsHipEnabled()
+    ccall((:tsgIsHipEnabled, TASlib), Cint, ())
+end
+
+# no prototype is found for this function at TasmanianSparseGrid.h:49:5, please use with caution
+function tsgIsDpcppEnabled()
+    ccall((:tsgIsDpcppEnabled, TASlib), Cint, ())
+end
+
 function tsgWrite(grid, filename)
     ccall((:tsgWrite, TASlib), Cvoid, (Ptr{Cvoid}, Ptr{Cchar}), grid, filename)
 end
@@ -103,6 +114,10 @@ end
 
 function tsgMakeFourierGrid(grid, dimensions, outputs, depth, sType, anisotropic_weights, limit_levels)
     ccall((:tsgMakeFourierGrid, TASlib), Cvoid, (Ptr{Cvoid}, Cint, Cint, Cint, Ptr{Cchar}, Ptr{Cint}, Ptr{Cint}), grid, dimensions, outputs, depth, sType, anisotropic_weights, limit_levels)
+end
+
+function tsgMakeGridFromCustomTabulated(grid, dimension, outputs, depth, sType, custom_tabulated, anisotropic_weights, limit_levels)
+    ccall((:tsgMakeGridFromCustomTabulated, TASlib), Cvoid, (Ptr{Cvoid}, Cint, Cint, Cint, Ptr{Cchar}, Ptr{Cvoid}, Ptr{Cint}, Ptr{Cint}), grid, dimension, outputs, depth, sType, custom_tabulated, anisotropic_weights, limit_levels)
 end
 
 function tsgUpdateGlobalGrid(grid, depth, sType, anisotropic_weights, limit_levels)
@@ -205,6 +220,10 @@ function tsgLoadNeededPoints(grid, vals)
     ccall((:tsgLoadNeededPoints, TASlib), Cvoid, (Ptr{Cvoid}, Ptr{Cdouble}), grid, vals)
 end
 
+function tsgLoadNeededValues(grid, vals)
+    ccall((:tsgLoadNeededValues, TASlib), Cvoid, (Ptr{Cvoid}, Ptr{Cdouble}), grid, vals)
+end
+
 function tsgGetLoadedValues(grid)
     ccall((:tsgGetLoadedValues, TASlib), Ptr{Cdouble}, (Ptr{Cvoid},), grid)
 end
@@ -223,6 +242,10 @@ end
 
 function tsgIntegrate(grid, q)
     ccall((:tsgIntegrate, TASlib), Cvoid, (Ptr{Cvoid}, Ptr{Cdouble}), grid, q)
+end
+
+function tsgDifferentiate(grid, x, y)
+    ccall((:tsgDifferentiate, TASlib), Cvoid, (Ptr{Cvoid}, Ptr{Cdouble}, Ptr{Cdouble}), grid, x, y)
 end
 
 function tsgEvaluateBatch(grid, x, num_x, y)
@@ -373,6 +396,10 @@ function tsgRemovePointsByHierarchicalCoefficient(grid, tolerance, output, scale
     ccall((:tsgRemovePointsByHierarchicalCoefficient, TASlib), Cvoid, (Ptr{Cvoid}, Cdouble, Cint, Ptr{Cdouble}), grid, tolerance, output, scale_correction)
 end
 
+function tsgRemovePointsByHierarchicalCoefficientHardCutoff(grid, num_new, output, scale_correction)
+    ccall((:tsgRemovePointsByHierarchicalCoefficientHardCutoff, TASlib), Cvoid, (Ptr{Cvoid}, Cint, Cint, Ptr{Cdouble}), grid, num_new, output, scale_correction)
+end
+
 function tsgEvaluateHierarchicalFunctions(grid, x, num_x, y)
     ccall((:tsgEvaluateHierarchicalFunctions, TASlib), Cvoid, (Ptr{Cvoid}, Ptr{Cdouble}, Cint, Ptr{Cdouble}), grid, x, num_x, y)
 end
@@ -445,7 +472,7 @@ function tsgGetGPUID(grid)
     ccall((:tsgGetGPUID, TASlib), Cint, (Ptr{Cvoid},), grid)
 end
 
-# no prototype is found for this function at TasmanianSparseGrid.h:143:5, please use with caution
+# no prototype is found for this function at TasmanianSparseGrid.h:150:5, please use with caution
 function tsgGetNumGPUs()
     ccall((:tsgGetNumGPUs, TASlib), Cint, ())
 end
@@ -464,5 +491,54 @@ end
 
 function tsgDeleteInts(p)
     ccall((:tsgDeleteInts, TASlib), Cvoid, (Ptr{Cint},), p)
+end
+
+# no prototype is found for this function at TasmanianSparseGrid.h:155:7, please use with caution
+function tsgConstructCustomTabulated()
+    ccall((:tsgConstructCustomTabulated, TASlib), Ptr{Cvoid}, ())
+end
+
+function tsgDestructCustomTabulated(ct)
+    ccall((:tsgDestructCustomTabulated, TASlib), Cvoid, (Ptr{Cvoid},), ct)
+end
+
+function tsgWriteCustomTabulated(ct, filename)
+    ccall((:tsgWriteCustomTabulated, TASlib), Cvoid, (Ptr{Cvoid}, Ptr{Cchar}), ct, filename)
+end
+
+function tsgReadCustomTabulated(ct, filename)
+    ccall((:tsgReadCustomTabulated, TASlib), Cint, (Ptr{Cvoid}, Ptr{Cchar}), ct, filename)
+end
+
+function tsgGetNumLevelsCustomTabulated(ct)
+    ccall((:tsgGetNumLevelsCustomTabulated, TASlib), Cint, (Ptr{Cvoid},), ct)
+end
+
+function tsgGetNumPointsCustomTabulated(ct, level)
+    ccall((:tsgGetNumPointsCustomTabulated, TASlib), Cint, (Ptr{Cvoid}, Cint), ct, level)
+end
+
+function tsgGetIExactCustomTabulated(ct, level)
+    ccall((:tsgGetIExactCustomTabulated, TASlib), Cint, (Ptr{Cvoid}, Cint), ct, level)
+end
+
+function tsgGetQExactCustomTabulated(ct, level)
+    ccall((:tsgGetQExactCustomTabulated, TASlib), Cint, (Ptr{Cvoid}, Cint), ct, level)
+end
+
+function tsgGetDescriptionCustomTabulated(ct)
+    ccall((:tsgGetDescriptionCustomTabulated, TASlib), Ptr{Cchar}, (Ptr{Cvoid},), ct)
+end
+
+function tsgGetWeightsNodesStaticCustomTabulated(ct, level, w, x)
+    ccall((:tsgGetWeightsNodesStaticCustomTabulated, TASlib), Cvoid, (Ptr{Cvoid}, Cint, Ptr{Cdouble}, Ptr{Cdouble}), ct, level, w, x)
+end
+
+function tsgMakeCustomTabulatedFromData(cnum_levels, cnum_nodes, cprecision, cnodes, cweights, cdescription)
+    ccall((:tsgMakeCustomTabulatedFromData, TASlib), Ptr{Cvoid}, (Cint, Ptr{Cint}, Ptr{Cint}, Ptr{Cdouble}, Ptr{Cdouble}, Ptr{Cchar}), cnum_levels, cnum_nodes, cprecision, cnodes, cweights, cdescription)
+end
+
+function tsgGetSubrules(ct, start_index, stride, description)
+    ccall((:tsgGetSubrules, TASlib), Ptr{Cvoid}, (Ptr{Cvoid}, Cint, Cint, Ptr{Cchar}), ct, start_index, stride, description)
 end
 

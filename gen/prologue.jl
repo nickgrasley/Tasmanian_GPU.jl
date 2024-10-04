@@ -23,9 +23,5 @@ mutable struct TasmanianSG
     end
 end
 
-# missing in Tasmanian.h
-function tsgDifferentiate(grid, x, y)
-    ccall((:tsgDifferentiate, TASlib), Cvoid, (Ptr{Cvoid}, Ptr{Cdouble}, Ptr{Cdouble}), grid, x, y)
-end
 
 

@@ -14,8 +14,11 @@ Tasmanian_jll = "5b6edb9a-6f5c-5561-95ad-cece0030cdd0"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [compat]
+CEnum = "0.5"
 Documenter = "1"
+LinearAlgebra = "1.10"
 Plots = "1"
+Random = "1.10"
 SparseArrays = "1.10.0"
 Tasmanian_jll = "8.0.2"
 Test = "1.6.3, 1.10"

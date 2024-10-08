@@ -1,7 +1,7 @@
 name = "Tasmanian"
 uuid = "1e81e918-d094-11e8-0e93-1dd8855012cf"
 authors = ["Florian Oswald <florian.oswald@gmail.com>", "Michel Juillard <michel.juillard@mjui.fr>"]
-version = "0.1.0"
+version = "0.1.1"
 
 [deps]
 CEnum = "fa961155-64e5-5f13-b03f-caf6b980ea82"

@@ -47,6 +47,9 @@ This approximates `f(x,y) = 1.0 / (abs(0.5 - x^4 - y^4) + 0.1)`.
 
 ![](examples/ex3.gif)
 
+## Requirements
+- Julia 64bit >= v1.9
+- Recommended version: Julia 64 bit v1.10
 
 ## Installation
 

@@ -16,6 +16,8 @@ for manually constructed grids. In particular, Tasmanian.jl supports
 
 ## Documentation
 
+https://dynarejulia.github.io/Tasmanian.jl
+
 ## Examples
 
 ### Example 1: The *Darth Vader* Function

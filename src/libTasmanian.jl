@@ -252,6 +252,10 @@ function tsgEvaluateBatch(grid, x, num_x, y)
     ccall((:tsgEvaluateBatch, TASlib), Cvoid, (Ptr{Cvoid}, Ptr{Cdouble}, Cint, Ptr{Cdouble}), grid, x, num_x, y)
 end
 
+function tsgEvaluateBatchGPU(grid, gpu_x, cpu_num_x, gpu_y)
+    ccall((:tsgEvaluateBatchGPU, TASlib), Cvoid, (Ptr{Cvoid}, Ptr{Cdouble}, Cint, Ptr{Cdouble}), grid, gpu_x, cpu_num_x, gpu_y)
+end
+
 function tsgBatchGetInterpolationWeightsStatic(grid, x, num_x, weights)
     ccall((:tsgBatchGetInterpolationWeightsStatic, TASlib), Cvoid, (Ptr{Cvoid}, Ptr{Cdouble}, Cint, Ptr{Cdouble}), grid, x, num_x, weights)
 end

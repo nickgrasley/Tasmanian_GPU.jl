@@ -7,7 +7,10 @@ using Random
 using SparseArrays
 using Tasmanian_jll
 
-const global TASlib = libtasmaniansparsegrid
+# Check for custom library path, fallback to jll
+# If want to use custom GPU installation of Tasmanian, link the path via ENV's TASMANIAN_LIBRARY_PATH
+const global TASlib = get(ENV, "TASMANIAN_LIBRARY_PATH", "") != "" ? 
+    ENV["TASMANIAN_LIBRARY_PATH"] : libtasmaniansparsegrid
 
 # includes
 include("libTasmanian.jl")

@@ -1,4 +1,4 @@
-using Tasmanian
+using Tasmanian_GPU
 using Test
 
 # write your own tests here

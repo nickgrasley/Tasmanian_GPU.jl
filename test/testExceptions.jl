@@ -1,4 +1,4 @@
-using Tasmanian
+using Tasmanian_GPU
 using Test
 
 function getSparseGridTests()

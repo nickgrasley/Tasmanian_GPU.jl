@@ -26,6 +26,10 @@ in the pre-compiled Julia binaries. Instead, you have to manually install the
 The repo provides [instructions](https://github.com/ORNL/TASMANIAN/blob/master/Doxygen/Installation.md)
 to CMake from source. I also include my options in CMake as a reference in [examples](examples/cmake_example.sh).
 
+To link the custom installation to this wrapper, set TASMANIAN_LIBRARY_PATH to 
+the libtasmaniansparsegrid.so path within your shell environment before loading
+in this package.
+
 Currently, only CUDA GPU acceleration is implemented.
 
 ## Examples

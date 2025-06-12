@@ -5,6 +5,7 @@ using LinearAlgebra
 using Plots
 using Random
 using SparseArrays
+using CUDA
 using Tasmanian_jll
 
 # Check for custom library path, fallback to jll

@@ -954,6 +954,92 @@ function evaluateBatch!(y::AbstractVecOrMat{Float64}, tsg::TasmanianSG, vals::Ab
 end
 
 """
+     evaluateBatchGPU(tsg::TasmanianSG, vals::CuArray{TF}) where TF <: AbstractFloat
+
+Using the GPU accelerator, evaluates the intepolant at the points of interest and returns
+the result
+
+this should be called after the grid has been created and after
+values have been loaded
+
+vals: a CUDA array
+      with first dimension equal to dimensions
+      each column in the array is a single requested point
+
+output: a CUDA array
+        with dimensions outputs X size(vals, 2) 
+        each columns corresponds to the value of the interpolant
+        for one columns of vals
+"""
+function evaluateBatchGPU(tsg::TasmanianSG, vals::CuArray{TF}) where TF <: AbstractFloat
+    NumX = getNumOutputs(tsg)
+    if NumX > 1
+        y = CuArray{TF}(undef, (NumOutputs, NumX))
+    else
+        y = Vector{TF}(undef, NumOutputs)
+    end 
+    evaluateBatchGPU!(y, tsg, vals)
+    return y
+end
+
+"""
+     evaluateBatchGPU!(y::AbstractVecOrMat{Float64}, tsg::TasmanianSG, vals::AbstractVecOrMat{Float64})
+
+Using the GPU, evaluates the intepolant at the points of interest and set the result in `y`
+
+this should be called after the grid has been created and after
+values have been loaded
+
+y: a CUDA array
+   with dimensions outputs X size(vals, 2) 
+   each columns corresponds to the value of the interpolant
+   for one columns of vals
+
+vals: a CUDA array
+      with first dimension equal to dimensions
+      each column in the array is a single requested point
+"""
+function evaluateBatchGPU!(y::CuArray{TF}, tsg:TasmanianSG, vals::CuArray{TF}) where TF <: AbstractFloat
+    if getGPUID(grid) != CUDA.device().handle
+        error("Grid GPU ID ($(getGPUID(grid))) doesn't match current CUDA device ($(CUDA.device().handle))")
+    end
+    if GetAccelerationType(tsg) != "gpu-cuda"
+        if GetAccelerationType(tsg) == "cpu-blas"
+            error("Your current grid uses a BLAS accelerator. Please use evaluateBatch() if using a CPU, or check that your GPU environment is configured correctly.")
+        else
+            error("Only the CUDA accelerator is currently implemented. Your accelerator is ($getAccelerationType(tsg)).")
+        end
+    end
+    if getNumLoaded(tsg) == 0
+        throw(TasmanianInputError("cannot call evaluateBatchGPU for a grid before any points are loaded, i.e., call loadNeededPoints first!"))
+    end
+    n1 = size(vals)
+    if ndims(vals) > 2
+        throw(TasmanianInputError("vals should be a vector or a matrix instead it has $(ndims(vals)) dimensions"))
+    end
+    if ndims(y) != ndims(vals)
+        throw(TasmanianInputError("y and vals must have the same number of dimensions"))
+    end
+    NumDim = n1[1]
+    NumX = (length(n1) == 2) ? n1[2] : 1
+    n2 = size(y)
+    NumDimOut = n2[1]
+    NumXOut = (length(n2) == 2) ? n2[2] : 1
+    if NumX > NumXOut
+        throw(TasmanianInputError("y must have at least as many columns as vals"))
+    end
+    NumX == 0 && return
+    if (NumDim != getNumDimensions(tsg))
+        throw(TasmanianInputError("ERROR: size(vals, 1) should equal $(getNumDimensions(tsg)) instead it equals $NumDim"))
+    end
+    if (NumDimOut != getNumOutputs(tsg))
+        throw(TasmanianInputError("ERROR: size(y, 1) should equal $(getNumOutputs(tsg)) instead it equals $NumDimOut"))
+    end
+    tsgEvaluateBatchGPU( tsg.pGrid, vals, NumX, y)
+    return y
+end
+    
+"""
     integrate(tsg::TasmanianSG)
 
 returns the integral of the interpolant

@@ -999,7 +999,7 @@ vals: a CUDA array
       with first dimension equal to dimensions
       each column in the array is a single requested point
 """
-function evaluateBatchGPU!(y::CuArray{TF}, tsg:TasmanianSG, vals::CuArray{TF}) where TF <: AbstractFloat
+function evaluateBatchGPU!(y::CuArray{TF}, tsg::TasmanianSG, vals::CuArray{TF}) where TF <: AbstractFloat
     if getGPUID(grid) != CUDA.device().handle
         error("Grid GPU ID ($(getGPUID(grid))) doesn't match current CUDA device ($(CUDA.device().handle))")
     end

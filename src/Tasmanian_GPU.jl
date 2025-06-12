@@ -1,4 +1,4 @@
-module Tasmanian
+module Tasmanian_GPU
 
 import Base: show, read, run, write
 using LinearAlgebra

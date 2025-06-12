@@ -26,6 +26,8 @@ in the pre-compiled Julia binaries. Instead, you have to manually install the
 The repo provides [instructions](https://github.com/ORNL/TASMANIAN/blob/master/Doxygen/Installation.md)
 to CMake from source. I also include my options in CMake as a reference.
 
+Currently, only CUDA GPU acceleration is implemented.
+
 ## Examples
 
 ### Example 1: The *Darth Vader* Function

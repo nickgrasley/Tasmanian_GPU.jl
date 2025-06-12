@@ -12,11 +12,19 @@ for manually constructed grids. In particular, Tasmanian.jl supports
 - refinements
 - differentiation
 - integration
-- acceleration via BLAS/LAPACK (via libblastrampoline) and OMP
+- acceleration via BLAS/LAPACK (via libblastrampoline), OMP, and GPU CUDA
 
 ## Documentation
 
 https://dynarejulia.github.io/Tasmanian.jl
+
+## Creating a GPU-Compatible Tasmanian Installation
+
+Tasmanian grids allow for GPU acceleration, but it is not natively implemented
+in the pre-compiled Julia binaries. Instead, you have to manually install the 
+[original Tasmanian C++ package](https://github.com/ORNL/TASMANIAN/) from source.
+The repo provides [instructions](https://github.com/ORNL/TASMANIAN/blob/master/Doxygen/Installation.md)
+to CMake from source. I also include my options in CMake as a reference.
 
 ## Examples
 

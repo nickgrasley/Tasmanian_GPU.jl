@@ -6,7 +6,6 @@ using Plots
 using Random
 using SparseArrays
 using CUDA
-using Tasmanian_jll
 
 # Check for custom library path, fallback to jll
 # If want to use custom GPU installation of Tasmanian, link the path via ENV's TASMANIAN_LIBRARY_PATH

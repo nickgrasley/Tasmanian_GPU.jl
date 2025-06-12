@@ -1,6 +1,3 @@
-using Tasmanian_jll
-export Tasmanian_jll
-
 using CEnum
 
 mutable struct TasmanianSG

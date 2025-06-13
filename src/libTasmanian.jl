@@ -249,8 +249,17 @@ function tsgEvaluateBatch(grid, x, num_x, y)
     ccall((:tsgEvaluateBatch, TASlib), Cvoid, (Ptr{Cvoid}, Ptr{Cdouble}, Cint, Ptr{Cdouble}), grid, x, num_x, y)
 end
 
+# This does not work for the ORNL version of TASlib, which does not have a C wrapper for evaluateBatchGPU. Can easily add the
+# wrapper to SparseGrids/TasmanianSparseGridWrapC.cpp. I made a separate wrappers for float32 (f) and float64 (d).
 function tsgEvaluateBatchGPU(grid, gpu_x::CuArray{T}, cpu_num_x, gpu_y::CuArray{T}) where T<:AbstractFloat
-    ccall((:tsgEvaluateBatch, TASlib), Cvoid, (Ptr{Cvoid}, CuPtr{T}, Cint, CuPtr{T}), grid, gpu_x, cpu_num_x, gpu_y)
+    if T == Float32
+        ccall((:tsgEvaluateBatchGPUf, TASlib), Cvoid, (Ptr{Cvoid}, CuPtr{T}, Cint, CuPtr{T}), grid, gpu_x, cpu_num_x, gpu_y)
+    elseif T == Float64
+        # Use the double precision version
+        ccall((:tsgEvaluateBatchGPUd, TASlib), Cvoid, (Ptr{Cvoid}, CuPtr{T}, Cint, CuPtr{T}), grid, gpu_x, cpu_num_x, gpu_y)
+    else
+        error("Unsupported type for GPU evaluation: $T")
+    end
 end
 
 function tsgBatchGetInterpolationWeightsStatic(grid, x, num_x, weights)

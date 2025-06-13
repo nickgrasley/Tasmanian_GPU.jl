@@ -1915,7 +1915,7 @@ end
     getAccelerationType(tsg::TasmanianSG)
 returns the type of acceleration set by enableAcceleration
 """
-getAccelerationType(tsg::TasmanianSG) = tsgGetAccelerationType(tsg.pGrid)
+getAccelerationType(tsg::TasmanianSG) = unsafe_string(tsgGetAccelerationType(tsg.pGrid))
 
 """
     isAccelerationAvailable(tsg::TasmanianSG, acceleration_type)

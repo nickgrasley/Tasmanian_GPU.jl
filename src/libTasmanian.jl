@@ -250,7 +250,7 @@ function tsgEvaluateBatch(grid, x, num_x, y)
 end
 
 function tsgEvaluateBatchGPU(grid, gpu_x::CuArray{T}, cpu_num_x, gpu_y::CuArray{T}) where T<:AbstractFloat
-    ccall((:tsgEvaluateBatchGPU, TASlib), Cvoid, (Ptr{Cvoid}, CuPtr{T}, Cint, CuPtr{T}), grid, gpu_x, cpu_num_x, gpu_y)
+    ccall((:tsgEvaluateBatchGPU, TASlib), Cvoid, (Ptr{Cvoid}, Ptr{Cvoid}, Cint, Ptr{Cvoid}), grid, pointer(gpu_x), cpu_num_x, pointer(gpu_y))
 end
 
 function tsgBatchGetInterpolationWeightsStatic(grid, x, num_x, weights)

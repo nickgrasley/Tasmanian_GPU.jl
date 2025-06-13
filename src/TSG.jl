@@ -1903,10 +1903,10 @@ function enableAcceleration(tsg::TasmanianSG, acceleration_type; GPUID::Union{In
     if isnothing(GPUID)
         tsgEnableAcceleration(tsg.pGrid, acceleration_type)
     else
-        if GPUID < 0 || GPUID >= getNumGPUs(tsg)
+        if GPUID < 0 || GPUID >= getNumGPUs()
             throw(TasmanianInputError("ERROR: invalid GPU ID number"))
         end
-        tsgEnableAcceleration(tsg.pGrid, acceleration_type, GPUID)
+        tsgEnableAccelerationGPU(tsg.pGrid, acceleration_type, GPUID)
     end
 end
 

@@ -1004,8 +1004,8 @@ function evaluateBatchGPU!(y::CuArray{TF}, tsg::TasmanianSG, vals::CuArray{TF}) 
     if getGPUID(tsg) != CUDA.device().handle
         error("Grid GPU ID ($(getGPUID(tsg))) doesn't match current CUDA device ($(CUDA.device().handle))")
     end
-    if GetAccelerationType(tsg) != "gpu-cuda"
-        if GetAccelerationType(tsg) == "cpu-blas"
+    if getAccelerationType(tsg) != "gpu-cuda"
+        if getAccelerationType(tsg) == "cpu-blas"
             error("Your current grid uses a BLAS accelerator. Please use evaluateBatch() if using a CPU, or check that your GPU environment is configured correctly.")
         else
             error("Only the CUDA accelerator is currently implemented. Your accelerator is ($getAccelerationType(tsg)).")

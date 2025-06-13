@@ -973,6 +973,7 @@ output: a CUDA array
 """
 function evaluateBatchGPU(tsg::TasmanianSG, vals::CuArray{TF}) where TF <: AbstractFloat
     NumX = getNumOutputs(tsg)
+    NumOutputs = getNumOutputs(tsg)
     if NumX > 1
         y = CuArray{TF}(undef, (NumOutputs, NumX))
     else

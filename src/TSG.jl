@@ -971,13 +971,13 @@ output: a CUDA array
         each columns corresponds to the value of the interpolant
         for one columns of vals
 """
-function evaluateBatchGPU(tsg::TasmanianSG, vals::CuArray{TF}) where TF <: AbstractFloat
+function evaluateBatchGPU(tsg::TasmanianSG, vals::AbstractArray{TF}) where TF <: AbstractFloat
     NumX = getNumOutputs(tsg)
     NumOutputs = getNumOutputs(tsg)
     if NumX > 1
         y = CuArray{TF}(undef, (NumOutputs, NumX))
     else
-        y = Vector{TF}(undef, NumOutputs)
+        y = CuArray{TF}(undef, NumOutputs)
     end 
     evaluateBatchGPU!(y, tsg, vals)
     return y
@@ -1000,7 +1000,7 @@ vals: a CUDA array
       with first dimension equal to dimensions
       each column in the array is a single requested point
 """
-function evaluateBatchGPU!(y::CuArray{TF}, tsg::TasmanianSG, vals::CuArray{TF}) where TF <: AbstractFloat
+function evaluateBatchGPU!(y::AbstractArray{TF}, tsg::TasmanianSG, vals::AbstractArray{TF}) where TF <: AbstractFloat
     if getGPUID(tsg) != CUDA.device().handle
         error("Grid GPU ID ($(getGPUID(tsg))) doesn't match current CUDA device ($(CUDA.device().handle))")
     end

@@ -2011,7 +2011,7 @@ function getGPUName(tsg::TasmanianSG, GPUID)
 end
 
 """
-    clearGPUCaches(tsg::TasmanianSG)
+    clearGPUCaches!(tsg::TasmanianSG)
 
 Clear GPU memory of the sparse grid
 
@@ -2020,7 +2020,7 @@ and you need to clear memory for other GPU operations.
 When the sparse grid is used again, the sparse grid
 automatically loads in the caches again.
 """
-clearGPUCaches(tsg::TasmanianSG) = tsgClearGpuCaches(tsg.pgrid)
+clearGPUCaches!(tsg::TasmanianSG) = tsgClearGpuCaches(tsg.pgrid)
 
 """
     printStats(tsg::TasmanianSG)

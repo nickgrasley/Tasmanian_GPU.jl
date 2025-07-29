@@ -499,8 +499,8 @@ function tsgGetGPUName(gpu, num_buffer, buffer, num_actual)
     ccall((:tsgGetGPUName, TASlib), Cvoid, (Cint, Cint, Ptr{Cchar}, Ptr{Cint}), gpu, num_buffer, buffer, num_actual)
 end
 
-function tsgClearGpuCaches(grid)
-    ccall((:tsgClearGpuCaches, TASlib), Cvoid, (Ptr{Cvoid},), grid)
+function tsgLocalPolynomialClearGpuCaches(grid)
+    ccall((:tsgLocalPolynomialClearGpuCaches, TASlib), Cvoid, (Ptr{Cvoid},), grid)
 end
 
 function tsgDeleteInts(p)

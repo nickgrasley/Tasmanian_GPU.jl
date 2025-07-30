@@ -2022,7 +2022,7 @@ automatically loads in the caches again.
 
 So far, this is only implemented for local polynomial grids.
 """
-localPolynomialClearGpuCaches!(tsg::TasmanianSG) = tsgLocalPolynomialClearGpuCaches(tsg.pgrid)
+localPolynomialClearGpuCaches!(tsg::TasmanianSG) = tsgLocalPolynomialClearGpuCaches(tsg.pGrid)
 
 """
     printStats(tsg::TasmanianSG)

@@ -2011,7 +2011,7 @@ function getGPUName(tsg::TasmanianSG, GPUID)
 end
 
 """
-    clearGPUCaches!(tsg::TasmanianSG)
+    localPolynomialClearGpuCaches!(tsg::TasmanianSG)
 
 Clear GPU memory of the sparse grid
 
@@ -2019,8 +2019,10 @@ This is helpful if the sparse grid is currently unused
 and you need to clear memory for other GPU operations.
 When the sparse grid is used again, the sparse grid
 automatically loads in the caches again.
+
+So far, this is only implemented for local polynomial grids.
 """
-clearGPUCaches!(tsg::TasmanianSG) = tsgClearGpuCaches(tsg.pgrid)
+localPolynomialClearGpuCaches!(tsg::TasmanianSG) = tsgLocalPolynomialClearGpuCaches(tsg.pgrid)
 
 """
     printStats(tsg::TasmanianSG)
